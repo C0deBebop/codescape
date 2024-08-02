@@ -18,6 +18,12 @@ font-style: normal;
 
 */
 
+@media(perefers-color-scheme: light){
+   body {
+   background: #fafafa; 
+   }
+}
+
 :root {
 --bodyTextColor: #fff;
 --buttonBgColor: #C6A7F8;
@@ -38,7 +44,9 @@ box-sizing: border-box;
 }
 
 body {
-background: var(--bgDarkMode);    
+background: var(--bgDarkMode);  
+display: none;   
+animation: fadeIn 0.00001s linear 0.00002s backwards; 
 }
 
 header {
@@ -61,7 +69,7 @@ text-decoration: none;
 }
 
 nav {
-width: 35%;    
+width: 45%;    
 display: flex;
 flex-direction: row;
 justify-content: space-around;  
@@ -80,7 +88,9 @@ background: var(--buttonBgColor);
 color: var(--buttonTxtColor); 
 padding: 0;
 border-radius: 15px;
-
+}
+nav ul li i {
+font-size: 1.5em;
 }
 
 nav ul li {
@@ -643,4 +653,9 @@ margin-left: 25px;
 @keyframes slideIn {
     from { bottom: 0;}
     to { bottom: -75px;}
+}
+
+@keyframes fadeIn {
+    from { opacity: 0;}
+    to { opacity: 1;}
 }

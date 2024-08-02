@@ -5,6 +5,8 @@ const cloneTags = document.querySelector('select[name="tag"]');
 const addTagsButton = document.querySelector('#add-tags');
 const forumSubmitButton = document.querySelector('#signup form button');
 const categoryDropdown = document.querySelectorAll(".category");
+const colorMode = document.querySelector('#color-mode');
+let styleSheet = document.querySelector('#styleSheet');
 
 function loadNotification(notificationMessage){
    const notificationBar = document.createElement('div');
@@ -89,6 +91,40 @@ function createClone(item){
     addToForm(clone);
 }
 
+
+function toggleStylesheet(theme) {
+    let mode = styleSheet.getAttribute('href').split('/')[2].split('.')[0]
+    if(mode == 'dark'){
+         localStorage.setItem('theme', '/css/light.mode.css');
+         let lightMode = localStorage.getItem('theme');
+         styleSheet.setAttribute('href', lightMode);
+         colorMode.innerHTML='<i class="fa-solid fa-moon"></i>';
+
+    } else {
+         localStorage.setItem('theme', '/css/dark.mode.css');
+         let darkMode = localStorage.getItem('theme');
+         styleSheet.setAttribute('href', darkMode);
+         colorMode.innerHTML='<i class="fa-solid fa-sun"></i>';
+         
+    }
+}
+
+colorMode.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleStylesheet(localStorage.getItem('theme') || '/css/light.mode.css');
+})
+
+function loadStylesheet(){
+    currentStylesheet = localStorage.getItem('theme');
+    styleSheet.setAttribute('href', currentStylesheet);
+    document.querySelector('body').style.display='block';
+}
+
+window.addEventListener('load', (e) => {
+    e.preventDefault();
+    loadStylesheet();
+}) 
+
 window.addEventListener('DOMContentLoaded', (e) => {
   if(addTagsButton){
       addTagsButton.addEventListener('click', (e) => {
@@ -104,9 +140,5 @@ window.addEventListener('DOMContentLoaded', (e) => {
             let confirmPassword = document.querySelector('#confirm-password').value;
             checkPasswords(passwordField, confirmPassword);
        })
-   }
+   } 
 })
-
-
-
-

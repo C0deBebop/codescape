@@ -1,0 +1,654 @@
+/*
+
+font-family: redonda, sans-serif;
+font-style: normal;
+font-weight: 300;
+
+font-family: "montserrat", sans-serif;
+font-weight: 400;
+font-style: normal;
+
+font-family: "montserrat-alternates", sans-serif;
+font-weight: 500;
+font-style: normal;
+
+font-family: "montserrat-alternates", sans-serif;
+font-weight: 600;
+font-style: normal;
+
+*/
+
+:root {
+--bodyTextColor: #070606;
+--buttonBgColor: #C6A7F8;
+--buttonTxtColor: #000;
+--offWhiteBgLightMode: #fafafa;
+--bgLightMode: #fff;    
+--buttonBorderRadius: 15px;
+--elementMargin: 30px 0;
+}
+
+
+* {
+padding: 0;
+margin: 0;    
+}
+
+html {
+box-sizing: border-box;    
+}
+
+body {
+background: var(--bgLightMode);   
+display: none; 
+animation: fadeIn 0.00001s linear 0.00002s backwards; 
+}
+
+header {
+display: flex;
+flex-direction: row;
+align-items: center;    
+justify-content: space-between;
+width: 98%;
+height: 85px;
+padding: 30px 20px 30px 20px;
+background: var(--bgLightMode);
+}
+
+header a {
+display: block;
+padding-left: 50px;    
+color: var(--bodyTextColor);
+font: normal 600 1.8em "montserrat", sans-serif;
+text-decoration: none;
+}
+
+nav {
+width: 55%;    
+display: flex;
+flex-direction: row;
+justify-content: space-around;  
+align-content: center;
+}
+
+nav a {
+display: block;
+width: 185px;
+height: 55px;    
+font: normal 600 1em "montserrat", sans-serif;  
+line-height: 3.5em; 
+margin: 0 auto;
+text-align: center;
+background: var(--buttonBgColor);
+color: var(--buttonTxtColor); 
+padding: 0;
+border-radius: 15px;
+
+}
+
+nav ul li {
+display: inline-block;
+list-style-type: none;
+margin-right: 25px;
+font: normal 600 1em "montserrat", sans-serif;  
+color: var(--bodyTextColor);
+}
+
+nav ul li .user  { 
+display: inline;
+padding: 15px 65px;    
+border: 2px solid var(--buttonBgColor); 
+background: linear-gradient(#801689, #5B52C4) !important; 
+color: var(--bodyTextColor);
+margin-left: 5px;
+}
+
+nav ul li .add {
+display: inline;
+padding: 15px 35px;
+border: 2px solid var(--buttonBgColor);
+background: transparent;
+color: var(--bodyTextColor);
+}
+ 
+nav ul li .logout {
+display: inline;
+padding: 15px 35px;
+background: var(--buttonBgColor);
+}
+
+nav ul li img {
+display: inline-block; 
+width: 48px;
+height: 40px;
+position: relative;
+left: 65px;
+top: 15px;
+}
+
+#signin {
+width: 25%;
+height: 450px;
+padding: 75px;  
+border: 2px solid  rgba(255, 255, 255, 0.2); 
+border-radius: 35px;  
+margin: 5% auto 0 auto; 
+color: var(--bodyTextColor);
+}
+
+#signup {
+width: 25%;
+height: 600px;
+padding: 75px;  
+border: 2px solid  rgba(255, 255, 255, 0.2); 
+border-radius: 35px;  
+margin: 3.5% auto 0 auto; 
+color: var(--bodyTextColor);
+}
+
+
+#signin h2, #signup h2, #forum h2, .profile h2  {
+font: normal 600 2em redonda, sans-serif; 
+color: var(--bodyTextColor);
+margin: 0 0 10px 15px;
+}
+
+#signup h2 {
+margin-bottom: 35px;
+}
+
+#signin input[type='email']::placeholder,
+#signin input[type='password']::placeholder,
+#signup input[type='text']::placeholder,
+#signup input[type='email']::placeholder,
+#signup input[type='password']::placeholder,
+#forum input[type='text']::placeholder,
+#forum form textarea::placeholder  {
+padding: 5px 0 0 10px;
+}
+
+#signin input[type='email'],
+#signup input[type='email'] {
+width: 100%;
+height: 50px;   
+border-radius: var(--buttonBorderRadius);  
+margin: var(--elementMargin);
+}
+
+#signin input[type='password'],
+#signup input[type='password'],
+#forum input[type='text']{
+width: 100%;
+height: 50px;   
+border-radius: var(--buttonBorderRadius);    
+}
+
+#signup input[type='password'],
+#signup input[type='text'],
+#signup input[type='email']{
+margin-bottom: 35px; 
+margin-top: 0;  
+}
+
+#signup input[type='text'] {
+width: 100%;
+height: 50px;   
+border-radius: var(--buttonBorderRadius);     
+}
+
+#signin button:nth-child(2n-1) {
+width: 100%;
+height: 75px;     
+background: var(--buttonBgColor);
+color: var(--bodyTextColor);
+font: normal 600 1em "montserrat", sans-serif; 
+margin: var(--elementMargin); 
+border-radius: var(--buttonBorderRadius);    
+cursor: pointer;  
+}
+
+#signin button:last-of-type, #signup button, #forum input[type='submit'] {
+width: 100%;
+height: 75px;     
+background: transparent;    
+border: 1px solid var(--buttonBgColor);
+border-radius: var(--buttonBorderRadius); 
+color: var(--bodyTextColor);
+font: normal 600 1em "montserrat", sans-serif; 
+cursor: pointer;     
+}
+
+#content-flex {
+display: flex;
+flex-direction: row;
+justify-content: space-around;    
+margin-top: 2%;
+padding: 75px 45px;
+}
+
+.menu {
+width: 100%;
+}
+
+.menu h4, .tags h4 {
+font: normal 400 1em redonda, sans-serif;
+color: var(--bodyTextColor);
+display: flex;
+flex-direction: row;
+justify-content: space-evenly;
+width: 25%;
+}
+
+.menu h4 span {
+font: normal 400 1.2em redonda, sans-serif;  
+display: block;
+margin: -10px  10px 0 0; 
+width: 15px;
+}
+
+.categories {
+width: 100%;
+height: 300px;
+}
+
+.categories div {
+display: flex;
+flex-direction: row;
+justify-content: space-evenly;
+align-items: center;
+width: 100%;
+height: 40px;
+margin: 10px 0;
+}
+
+.categories div a, .tags ul li a  {
+font: normal 400 0.9em redonda, sans-serif;
+color: var(--bodyTextColor);
+text-decoration: none;
+display: block;
+width: 100%;
+padding-left: 10px;
+}
+
+.tags {
+margin-top: 75px;
+height: 300px;
+}
+
+.tags ul {
+margin-top: 15px;
+}
+
+.tags ul li {
+list-style-type: none;
+padding: 10px 0;
+}
+
+.readmore {
+display: inline;    
+font: normal 400 0.8em redonda, sans-serif;
+color: var(--bodyTextColor); 
+text-decoration: underline;
+line-height: 3.5em;
+}
+
+.main-content {
+width: 75%;   
+}
+
+.main-content h2 {
+font: normal 400 1.2em redonda, sans-serif;
+color: var(--bodyTextColor);  
+}
+
+.main-content h4 {
+font: normal 400 1.2em redonda, sans-serif;
+color: var(--bodyTextColor);
+margin: -5px 0 25px 0;  
+}
+
+.main-content p {
+font: normal 400 0.9em redonda, sans-serif;
+color: var(--bodyTextColor); 
+width: 15%;   
+display: flex;
+flex-direction: row;
+margin-top: 15px;
+}
+
+.discussions {
+width: 100%;    
+height: 85px;
+padding: 30px 0;
+border-bottom: 1px solid  rgba(255, 255, 255, 0.1); 
+}
+
+.main-content div:nth-child(1 of .discussions) {
+border-top: 1px solid  rgba(255, 255, 255, 0.1); 
+}
+
+.discussions:last-of-type {
+border-bottom: none; 
+}
+
+.discussions h2 a {
+font: normal 400 0.9em redonda, sans-serif;
+color: var(--bodyTextColor);  
+text-decoration: none;
+}
+
+.discussions span {
+margin-right: 6px;    
+}
+
+.discussion-header {
+float: right;   
+width: 35%; 
+margin-top: -75px;
+}
+
+.filter-menu select {
+background: transparent;
+color: var(--bodyTextColor);
+border-radius: 10px;    
+width: 40%;    
+height: 35px; 
+padding: 5px 0 5px 15px; 
+outline: transparent;
+}
+
+.filter-menu select:first-of-type {
+margin-right: 25px;   
+}
+
+.dates {   
+display: block;    
+float: right;  
+width: 5em; 
+margin: 0 auto;
+}
+
+/* Add forum */
+
+#forum {
+width: 25%;
+height: auto;
+padding: 75px 75px 95px 75px;  
+border: 2px solid  rgba(255, 255, 255, 0.2); 
+border-radius: 35px;  
+margin: 2.5% auto 0 auto; 
+}
+
+#forum form {
+padding-top: 15px;  
+}
+
+#forum select {
+background: transparent;
+color: var(--bodyTextColor);
+border-radius: 10px;    
+width: 100%;    
+height: 50px; 
+margin-top: 35px;
+padding: 5px 0 5px 15px; 
+outline: transparent;
+}
+
+#forum select:last-of-type {
+margin-bottom: 25px;
+}    
+
+#add-tags {
+width: 100%;
+height: 75px;     
+background: var(--buttonBgColor);    
+border: 1px solid var(--buttonBgColor);
+border-radius: var(--buttonBorderRadius); 
+color: var(--buttonTxtColor);
+font: normal 600 1em "montserrat", sans-serif; 
+cursor: pointer;    
+margin-bottom: 25px;
+}
+
+#forum input[type='submit'] {
+background: transparent;  
+border-radius: var(--buttonBorderRadius);     
+border: 2px solid  rgba(255, 255, 255, 0.2);
+padding: 15px 25px;
+font: normal 400 0.9em redonda, sans-serif;
+color: var(--bodyTextColor);
+}
+
+#forum textarea {  
+width: 98%;
+height: 120px;   
+border-radius: var(--buttonBorderRadius);  
+margin: var(--elementMargin);
+padding: 10px 0 0 10px;
+}
+
+#no-posts {
+font: normal 400 1.2em redonda, sans-serif;
+color: var(--bodyTextColor);     
+}
+
+#notification {
+width: 100%;
+height: 75px;
+background:#5B52C4;
+position: fixed;
+bottom: -75px;  
+animation: slideIn 0.8s linear 1s backwards; 
+}
+
+#notification p {
+text-align: center;
+color: var(--buttonTxtColor);
+font: normal 600 1.2em redonda, sans-serif;  
+padding: 25px 0 0 0; 
+}
+
+
+.profile {
+width: 25%;
+height: 400px;
+padding: 75px;  
+border: 2px solid  rgba(255, 255, 255, 0.2); 
+border-radius: 35px;  
+margin: 5% auto 0 auto; 
+color: var(--bodyTextColor);
+}
+
+.profile label {
+font: normal 400 0.9em redonda, sans-serif;
+color: var(--bodyTextColor);  
+text-decoration: none;
+margin: 35px 0 0 15px;
+display: block;
+}
+
+.profile form select {
+background: transparent;
+color: var(--bodyTextColor);
+border-radius: 10px;    
+width: 100%;    
+height: 50px; 
+margin-top: 25px;
+padding: 5px 0 5px 15px; 
+outline: transparent;
+}
+
+.profile form input[type='file']{
+display: inline-block;
+width: 100%;
+height: 40px;
+padding-top: 65px;
+box-sizing: border-box;
+overflow: hidden;
+border: 2px solid  rgba(255, 255, 255, 0.2);
+border-radius: 20px; 
+margin-top: 50px;   
+}
+
+.profile form span {
+text-align: center;
+font: normal 600 1em redonda, sans-serif;  
+color: var(--bodyTextColor);
+margin: 0 auto;
+margin-top: -50px;
+display: block;
+height: 40px;
+}    
+
+.profile input[type='submit'] {
+width: 100%;
+height: 75px;     
+background: transparent;    
+border: 1px solid var(--buttonBgColor);
+border-radius: var(--buttonBorderRadius); 
+color: var(--bodyTextColor);
+font: normal 600 1em "montserrat", sans-serif; 
+cursor: pointer;  
+margin-top: 35px;   
+}
+
+
+
+
+/* Forum */
+
+.discussion-content {
+width: 100%;
+margin-top: 25px;
+}
+
+.discussion-content p {
+width: 97.5%; 
+font: normal 300 0.9em redonda, sans-serif;  
+text-align: left;
+line-height: 2.2em;
+}
+
+#reply {
+display: block;
+float: right;  
+margin-right: 50px;
+font: normal 500 1em redonda, sans-serif; 
+color: var(--bodyTextColor);
+}
+
+.replies {
+width: 45%;     
+height: 85px;
+padding: 30px;
+margin: 5% auto 0 auto;
+}
+
+.replies a {
+display: block;
+font: normal 400 1.2em redonda, sans-serif;
+color: var(--bodyTextColor);
+margin-bottom: 70px;
+}
+
+.replies h4 {    
+font: normal 400 1.2em redonda, sans-serif;
+color: var(--bodyTextColor);
+margin: -5px 0 25px 0;  
+}
+
+.replies textarea {
+background: #1C1C1C;
+border: 2px solid  rgba(255, 255, 255, 0.2);
+border-radius: var(--buttonBorderRadius); 
+width: 100%;
+height: 300px;
+resize: none;
+outline: transparent;
+color: #fafafa;
+padding: 15px 0 0 15px;
+}
+
+.replies input[type='submit'] {
+width: 35%;
+height: 75px;     
+background: transparent;    
+border: 1px solid var(--buttonBgColor);
+border-radius: var(--buttonBorderRadius); 
+color: var(--bodyTextColor);
+font: normal 600 1em "montserrat", sans-serif; 
+cursor: pointer;  
+margin-top: 35px;     
+float: right;
+}
+
+.user-image {
+border-radius: 50px;
+width: 48px;
+height: 48px;  
+}
+
+.discussion-replies {
+padding: 10px;
+margin-top: 50px;
+}
+
+.discussion-replies div {
+display: flex;
+flex-direction: row; 
+align-items: center;
+border-bottom: 1px solid  rgba(255, 255, 255, 0.1);
+width: 97%;
+height: 75px;
+padding: 10px 0;
+}
+
+.discussion-replies div:first-of-type {
+margin-top: 25px;
+}    
+
+.discussion-replies .likes {
+width: 16px;
+height: 16px; 
+margin-right: 10px;   
+}
+
+.discussion-replies a {
+color: #fafafa;
+font: normal 600 1.2em redonda, sans-serif;
+text-decoration: none;
+}
+
+.discussion-replies span {
+color: #fafafa;   
+font: normal 400 0.9em redonda, sans-serif;
+margin-left: 10px;
+text-transform: capitalize;
+width: 50%;
+display: block;
+}
+
+.discussion-replies p {
+color: #fafafa;   
+font: normal 400 0.9em redonda, sans-serif;
+height: auto;
+margin: 25px 0 35px 0;
+}
+
+.reply-date {
+width: 45%;
+display: block;   
+text-align: right;
+margin-left: 25px;
+}
+
+
+@keyframes slideIn {
+    from { bottom: 0;}
+    to { bottom: -75px;}
+}
+
+@keyframes fadeIn {
+    from { opacity: 0;}
+    to { opacity: 1;}
+}

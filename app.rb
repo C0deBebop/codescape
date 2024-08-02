@@ -186,7 +186,6 @@ class CodescapeApp < Sinatra::Base
         data = @redis.hgetall("user:000#{session.id}")
         @user = User.find_by(email: data["email"])
         @posts = Post.where(tags: params[:tagname])
-        puts params[:tagname]
         erb :latest
     end
 
@@ -237,7 +236,6 @@ class CodescapeApp < Sinatra::Base
     post '/add/forum' do
       data = @redis.hgetall("user:000#{session.id}").to_json
       json = JSON.parse(data)
-      puts json
       if data.empty?
          redirect '/'
       else
