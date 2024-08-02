@@ -93,10 +93,6 @@ class CodescapeApp < Sinatra::Base
             :likes => reply.likes
          })
       end   
-
-
-
-
       erb :forum
     end    
 
@@ -262,6 +258,20 @@ class CodescapeApp < Sinatra::Base
        end
     end 
     
+    get '/edit/forum/:forum_id' do
+       @page = 'Edit forum'
+       @post = Post.find(params[:forum_id])
+       @categories = Post.distinct("category")
+       @colors = Post.distinct("color")
+       @tags = Post.distinct("tags")
+       @menu_items = []
+       @categories.zip(@colors).each do |(category, color)|
+           @menu_items.push({:category => category, :colors => color}) 
+       end 
+       erb :edit
+    end  
+
+
     get '/logout' do
       session.clear  
       redirect '/'

@@ -170,6 +170,10 @@ margin-bottom: 35px;
 #signup input[type='email']::placeholder,
 #signup input[type='password']::placeholder,
 #forum input[type='text']::placeholder,
+#edit-discussion-forum input[type='text']::placeholder,
+#edit-discussion-forum form input[type='text']::placeholder,
+#edit-discussion-forum form input[type='email']::placeholder,
+#edit-discussion-forum form textarea::placeholder,
 #forum form textarea::placeholder  {
 padding: 5px 0 0 10px;
 }
@@ -455,7 +459,6 @@ font: normal 600 1.2em redonda, sans-serif;
 padding: 25px 0 0 0; 
 }
 
-
 .profile {
 width: 25%;
 height: 400px;
@@ -551,7 +554,7 @@ padding: 30px;
 margin: 5% auto 0 auto;
 }
 
-.replies a {
+.replies a, #edit-content a {
 display: block;
 font: normal 400 1.2em redonda, sans-serif;
 color: var(--bodyTextColor);
@@ -659,14 +662,95 @@ border: 1px solid var(--buttonBgColor);
 border-radius: var(--buttonBorderRadius); 
 margin-top: 50px;;
 color: var(--bodyTextColor);
-font: normal 600 1em "montserrat", sans-serif; 
+font: normal 600 0.9em redonda, sans-serif;
 cursor: pointer;      
 float: right;
 display: block;
 text-align: center;
-line-height: 4em;
+line-height: 4.5em;
 text-decoration: none;
 }
+
+#edit-content {
+margin-top: -75px;
+border: none !important;
+width: 75%; 
+}
+
+#edit-discussion-forum {
+width: 85%;     
+padding: 30px;
+margin: 5% auto 0 auto;
+}
+
+#edit-discussion-forum form {
+width: 65%;
+margin: 0 auto; 
+}
+
+#edit-discussion-forum form input[type='text']{
+width: 100%;
+height: 50px;   
+border-radius: var(--buttonBorderRadius);    
+margin: 10px 0;
+padding-left: 5px;
+font: normal 400 0.9em redonda, sans-serif;
+}
+
+#edit-discussion-forum form textarea {
+width: 100%;
+height: 200px; 
+border-radius: var(--buttonBorderRadius);  
+margin: var(--elementMargin);
+padding: 10px 0 0 10px;   
+color: var(--bgDarkMode);
+}
+
+#edit-discussion-forum form textarea::placeholder {
+color: var(--bgDarkMode);
+font: normal 400 1em redonda, sans-serif;
+line-height: 2em;
+}    
+
+#edit-discussion-forum form select {
+background: transparent;
+color: var(--bodyTextColor);
+border-radius: 10px;    
+width: 100%;    
+height: 50px; 
+padding: 5px 0 5px 15px;
+margin: 10px 0; 
+outline: transparent;
+}
+
+#edit-discussion-forum #add-tags {
+width: 100%;
+height: 75px;     
+background: var(--buttonBgColor);    
+border: 1px solid var(--buttonBgColor);
+border-radius: var(--buttonBorderRadius); 
+color: var(--buttonTxtColor);
+font: normal 600 0.9em redonda, sans-serif;
+cursor: pointer;    
+margin-bottom: 25px;
+}
+
+#edit-discussion-forum form input[type='submit'] {
+background: transparent;  
+border-radius: var(--buttonBorderRadius);     
+border: 2px solid  rgba(255, 255, 255, 0.2);
+width: 100%;
+height: 85px;  
+font: normal 400 0.9em redonda, sans-serif;
+color: var(--bodyTextColor);
+}
+    
+#edit-discussion-forum form h4 {
+font: normal 400 1.2em redonda, sans-serif;
+color: var(--bodyTextColor);
+margin: -5px 0 25px 0;  
+}
+
 
 
 @keyframes slideIn {
