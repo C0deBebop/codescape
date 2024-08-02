@@ -596,8 +596,10 @@ height: 48px;
 }
 
 .discussion-replies {
-padding: 10px;
+padding: 20px;
 margin-top: 50px;
+height: 250px;
+overflow-y: scroll;
 }
 
 .discussion-replies div {
@@ -647,6 +649,23 @@ width: 45%;
 display: block;   
 text-align: right;
 margin-left: 25px;
+}
+
+#edit-topic {
+width: 15%;
+height: 65px;     
+background: transparent;    
+border: 1px solid var(--buttonBgColor);
+border-radius: var(--buttonBorderRadius); 
+margin-top: 50px;;
+color: var(--bodyTextColor);
+font: normal 600 1em "montserrat", sans-serif; 
+cursor: pointer;      
+float: right;
+display: block;
+text-align: center;
+line-height: 4em;
+text-decoration: none;
 }
 
 

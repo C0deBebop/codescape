@@ -16,7 +16,6 @@
                  <p><%= @post.discussion %></p>
                   <a href="/forums/add/reply/<%= @post._id %>" id="reply">Add reply</a>
                 </div>
-              
                 <% if @replies %>
                 <div class="discussion-replies">
                     <h2><%= @reply_count %> Replies</h2>  
@@ -28,7 +27,8 @@
                     <p><a href="#"><img src="/images/heart.png" class="likes"><%= reply[:likes] %></a></p>
                  <% end %>
                </div> 
-            <% end %>  
+            <% end %> 
+            <a href="" id="edit-topic">Edit topic</a> 
              </div>  
          </div>
       </div>
