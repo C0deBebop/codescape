@@ -1,0 +1,50 @@
+<% if @tags.any? %>
+<select name="tag">
+  <% @tags.each_with_index do |tag, index| %>
+    <% if index == 0 %>
+       <option value="tag" disabled selected value>tag</option>
+       <option value="CSS">CSS</option>  
+       <option value="HTML">HTML</option>  
+       <option value="PHP">PHP</option>  
+       <option value="nim">Nim</option>  
+       <option value="python">Python</option>  
+       <option value="javascript">JavaScript</option> 
+       <option value="java">Java</option>  
+       <option value="csharp">C#</option>  
+       <option value="c">C</option>  
+       <option value="cplusplus">C++</option>  
+       <option value="rust">Rust</option>  
+       <option value="gleam">Gleam</option> 
+       <option value="elixir">Elixir</option>  
+       <option value="lua">Lua</option>  
+       <option value="ruby">Ruby</option>  
+       <option value="sinatra">Sinatra</option>  
+       <option value="ruby on rails">Ruby on Rails</option>  
+       <option value="react">React</option>  
+       <option value="vue">Vue</option>  
+       <option value="phoenix">Phoenix</option>  
+       <option value="flask">Flask</option>  
+       <option value="django">Django</option>  
+       <option value="lustre">Lustre</option>  
+       <option value="coldfusion">Coldfusion</option> 
+       <option value="jester">Jester</option>  
+       <option value="fastAPI">FastAPI</option>  
+       <option value="erlang">Erlang</option>  
+       <option value="swift">Swift</option>  
+       <option value="kotlin">Kotlin</option>  
+       <option value="objective-c">Objective-C</option> 
+       <option value="vapor swift">Vapor Swift</option>  
+       <option value="ktor">Ktor</option>  
+       <option value="go">Go</option>  
+       <option value="zig">Zig</option>  
+       <option value="cobol">Cobol</option>  
+       <option value="lua">Lua</option> 
+       <option value="godot">Godot</option> 
+       <option value="OOP">OOP</option> 
+       <option value="programming">programming</option> 
+     <% else %>
+       <option value="<%= tag %>"><%= tag %></option>
+     <% end %>
+  <% end %>
+</select>
+<% end %>

@@ -1,0 +1,22 @@
+<% if @categories.any? %>
+<div class="filter-menu">
+  <select name="filter-categories">   
+     <% @categories.each_with_index do |category, index| %>
+       <% if index == 0 %>
+         <option value="category" disabled selected value>-- category --</option>  
+       <% else %>
+         <option value="<%= category %>"><%= category %></option>   
+       <% end %>
+     <% end %> 
+  </select> 
+  <select name="filter-tags"> 
+    <% @tags.each_with_index do |tag, index| %>
+       <% if index == 0 %>
+          <option value="tags" disabled selected value>-- tags --</option>
+       <% else %>  
+          <option value="<%= tag %>"><%= tag %></option>
+       <% end %>
+     <% end %>
+  </select>    
+</div>
+<% end %> 

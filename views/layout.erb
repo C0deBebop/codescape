@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+       <title>Codescape</title>  
+       <link rel="stylesheet" href="https://use.typekit.net/chu4tja.css">
+       <link rel="stylesheet" href="/css/main.css">
+    </head>
+    <body>
+      <header>
+            <% if request.path_info == '/' %>
+                <a href="/">Codescape</a>
+                <nav>
+                  <a href="/signup">Sign up</a>
+            <% elsif request.path_info == '/signup' %> 
+                 <a href="/">Codescape</a>
+                 <nav>
+                   <a href="/">Sign in</a>   
+             <% else %>
+                <a href="/forums/latest">Codescape</a>
+                <nav>
+                <ul>
+                <% if @user %>
+                  <li><img src="/images/<%= @user.image %>"><a href="#" class="user">Hey <%=  @user.name.split(' ')[0] %> </a></li>  
+                <% end %>   
+                  <li><a href="/add/forum" class="add">Add topic</a></li>   
+                  <li><a href="/logout" class="logout">Log out</a></li>
+                </ul>
+             <% end %>
+          </nav>
+      </header>   
+       <%= yield %>
+       <script src="/js/main.js"></script>
+    </body>
+</html>

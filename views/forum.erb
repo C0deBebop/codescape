@@ -1,0 +1,35 @@
+<div class="container">
+   <div id="content-flex">
+     <div class="sidebar">
+        <%= erb :'partials/sidebar' %>
+     </div>
+      <div class="main-content">
+         <h4><%= @page %></h4>
+         <div class="discussion-header">
+            <%= erb :'partials/filter' %>   
+        </div>
+            <div class="discussions">
+              <p class="dates"><%= @post.date_added.strftime('%m/%d/%Y') %></p>
+              <h2><%= @post.topic %></h2>
+              <p><span style="background:<%= @post.color %>;width:15px;height:15px;border-radius:25px;display:block;"></span><%= @post.category %></p>
+              <div class="discussion-content">
+                 <p><%= @post.discussion %></p>
+                  <a href="/forums/add/reply/<%= @post._id %>" id="reply">Add reply</a>
+                </div>
+              
+                <% if @replies %>
+                <div class="discussion-replies">
+                    <h2><%= @reply_count %> Replies</h2>  
+                    <% @replies.each do |reply| %>
+                    <div>
+                      <img src="/images/<%= reply[:image] %>" class="user-image"><span><%= reply[:username] %></span><span class="reply-date"><%= reply[:reply_date].strftime('%m/%d/%Y') %></span> 
+                    </div>
+                    <p><%= reply[:reply] %></p>
+                    <p><a href="#"><img src="/images/heart.png" class="likes"><%= reply[:likes] %></a></p>
+                 <% end %>
+               </div> 
+            <% end %>  
+             </div>  
+         </div>
+      </div>
+    </div>

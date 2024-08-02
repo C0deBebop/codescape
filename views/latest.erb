@@ -1,0 +1,29 @@
+<div class="container">
+   <div id="content-flex">
+     <div class="sidebar">
+        <%= erb :'partials/sidebar' %>
+     </div>
+      <div class="main-content">
+         <h4><%= @page %></h4>
+         <div class="discussion-header">
+            <%= erb :'partials/filter' %>   
+        </div>
+      <% if @posts.empty? %>
+        <div class="discussions">    
+          <h1 id="no-posts">No posts</h1>
+        </div>  
+      <% else %>
+        <% @posts.each do |post| %>
+          <div class="discussions">
+            <p class="dates"><%= post.date_added.strftime('%m/%d/%Y') %></p>
+            <h2><a href="/forums/<%= post._id %>"><%= post.topic %></a></h2>
+            <p><span style="background:<%= post.color %>;width:15px;height:15px;border-radius:25px;display:block;"></span><%= post.category %></p>
+            <ul>
+              <li></li>  
+            </ul>
+          </div>   
+        <% end %>
+      <% end %>  
+      </div>
+   </div>
+</div>

@@ -1,0 +1,11 @@
+<div id="forum">
+   <h2>Add post</h2> 
+   <form method="post">
+     <input type="text" name="topic" placeholder="Topic"> 
+     <%= erb :'partials/categories' %>
+     <%= erb :'partials/tags' %>
+     <textarea name="forumpost" placeholder="Post for the forum"></textarea>
+      <button type="button" id="add-tags">Add tags</button> 
+     <input type="submit" value="Add post"> 
+   </form> 
+</div>

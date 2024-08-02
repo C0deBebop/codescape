@@ -1,0 +1,21 @@
+<% if @menu_items.any? %>
+<div class="menu">
+    <h4><span>&#x2304;</span> Categories</h4>  
+    <div class="categories">
+        <% @menu_items.each do |item| %>
+            <div data-category="<%= item[:category] %>">
+                <span data-colors="<%= item[:colors]%>" style="background:<%= item[:colors]%>;width:15px;height:12px;border-radius:25px;display:block;"></span>
+                <a href="/forums/category/<%= item[:category].split(" ").join("-") %>" class="category"><%= item[:category] %></a>
+            </div>
+        <% end %>
+    </div>
+    <div class="tags">
+      <h4><span>&#x2304;</span> Tags</h4>  
+       <ul>
+        <% for tag in @tags %>
+          <li data-tag="<%= tag %>"><a href="/forums/tag/<%= tag %>"><%= tag %></a></li>
+        <% end %>
+       </ul>
+    </div>       
+  </div>  
+ <% end %> 

@@ -1,0 +1,19 @@
+<% if request.path_info == '/add/profile' %>
+<div class="profile">
+   <h2>Your profile</h2>
+   <form method="post">
+    <label>Your experience</label>
+    <select name="experience">
+       <option value="novel novice">Less than a year</option>
+       <option value="burgeoning badger">1 year</option>
+       <option value="sprawling sprite">2 years</option>
+       <option value="artful codesmith">3 years</option>
+       <option value="inquisitive wizard">5 years</option>
+       <option value="adventurous inventor">10 years</option>
+       <option value="contemplative codger">20 years +</option>
+     </select>
+     <div id="profile-image"><input type="file" name="image"><span>Add profile image</span></div>
+     <input type="submit" value="Save profile">
+   </form>
+</div>    
+<% end %>

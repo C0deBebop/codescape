@@ -1,0 +1,23 @@
+ <% if @categories.any? %>
+     <select name="categories" required>
+        <% @colors = ["#F5DE7C", "#7CF5A1", "#5B52C4", "#7CABF5", "#F57CE2", "#939393", "#D80B23", "#ED5252", "#130BD8"] %>
+        <% @categories.each_with_index do |category, index| %>
+          <% if index == 0 %>
+           <option value="category" disabled selected value>category</option>
+           <option value="general knowledge, #F5DE7C" data-color="#F5DE7C">General knowledge</option>  
+           <option value="backend development, #7CF5A1" data-color="#7CF5A1">Backend Development</option>  
+           <option value="frontend development, #5B52C4" data-color="#5B52C4">Frontend Development</option>  
+           <option value="computer science, #7CABF5" data-color="#7CABF5">Computer science</option>  
+           <option value="mobile development, #F57CE2" data-color="#F57CE2">Mobile Development</option>  
+           <option value="game development, #939393" data-color="#939393">Game Development</option>  
+           <option value="AR/VR, #D80B23" data-color="#D80B23">AR/VR</option>  
+           <option value="AI, #ED5252" data-color="#ED5252">AI</option>  
+           <option value="indie development, #130BD8" data-color="#130BD8">Indie Development</option>  
+          <% else %> 
+             <% for color in @colors %>
+                <option value="<%= category %>,<%=  color %>" data-color="<%= color %>"><%= category %></option>
+             <% end %>   
+        <% end %>
+      <% end %>   
+     </select>
+  <% end %>   

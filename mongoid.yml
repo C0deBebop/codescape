@@ -1,0 +1,8 @@
+development:
+   clients:
+      default:
+         database: <%= "#{ENV['MONGO_DB']}" %>
+         hosts:
+            - <%= "#{ENV['MONGO_DB_HOST']}" %>
+         options:
+             server_selection_timeout: 1
