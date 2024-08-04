@@ -148,18 +148,3 @@ window.addEventListener('DOMContentLoaded', (e) => {
    } 
  
 })
-
-
-/*
-window.onresize = () => {
-    if(window.innerWidth < 1024){
-        const hamburgerMenu = document.createElement('div');
-        const trigram = document.createTextNode('\u2630');
-        hamburgerMenu.appendChild(trigram)
-        hamburgerMenu.setAttribute('class', 'sm-menu');
-        document.querySelector('nav').appendChild(hamburgerMenu);
-    }
- }
- */
- 
-
