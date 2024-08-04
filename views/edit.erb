@@ -7,7 +7,18 @@
                 <h4><%= @page %></h4>
                 <input type="hidden" name="id" value="<%= @post._id %>">
                 <input type="text" name="topic" value="<%=   @post.topic %>">
-                <input type="text" name="category" value="<%=  @post.category %>">
+                 <select name="category">
+                    <option value="category" disabled selected value>category</option>
+                    <option value="general knowledge, #F5DE7C" data-color="#F5DE7C">General knowledge</option>  
+                    <option value="backend development, #7CF5A1" data-color="#7CF5A1">Backend Development</option>  
+                    <option value="frontend development, #5B52C4" data-color="#5B52C4">Frontend Development</option>  
+                    <option value="computer science, #7CABF5" data-color="#7CABF5">Computer science</option>  
+                    <option value="mobile development, #F57CE2" data-color="#F57CE2">Mobile Development</option>  
+                    <option value="game development, #939393" data-color="#939393">Game Development</option>  
+                    <option value="AR/VR, #D80B23" data-color="#D80B23">AR/VR</option>  
+                    <option value="AI, #ED5252" data-color="#ED5252">AI</option>  
+                    <option value="indie development, #130BD8" data-color="#130BD8">Indie Development</option>  
+                </select>    
                 <select name="tag">
                     <option value="tag" disabled selected value>tag</option>
                     <option value="CSS">CSS</option>  

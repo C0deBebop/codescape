@@ -91,7 +91,6 @@ function createClone(item){
     addToForm(clone);
 }
 
-
 function toggleStylesheet(theme) {
     let mode = styleSheet.getAttribute('href').split('/')[2].split('.')[0]
     if(mode == 'dark'){
@@ -109,20 +108,26 @@ function toggleStylesheet(theme) {
     }
 }
 
-colorMode.addEventListener('click', (e) => {
-    e.preventDefault();
-    toggleStylesheet(localStorage.getItem('theme') || '/css/light.mode.css');
-})
-
 function loadStylesheet(){
-    currentStylesheet = localStorage.getItem('theme');
+    currentStylesheet = localStorage.getItem('theme') || '/css/light.mode.css';
     styleSheet.setAttribute('href', currentStylesheet);
     document.querySelector('body').style.display='block';
 }
 
+
+
 window.addEventListener('load', (e) => {
     e.preventDefault();
     loadStylesheet();
+
+
+
+    if(colorMode){
+        colorMode.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleStylesheet(localStorage.getItem('theme') || '/css/light.mode.css');
+        })
+   } 
 }) 
 
 window.addEventListener('DOMContentLoaded', (e) => {
@@ -141,4 +146,20 @@ window.addEventListener('DOMContentLoaded', (e) => {
             checkPasswords(passwordField, confirmPassword);
        })
    } 
+ 
 })
+
+
+/*
+window.onresize = () => {
+    if(window.innerWidth < 1024){
+        const hamburgerMenu = document.createElement('div');
+        const trigram = document.createTextNode('\u2630');
+        hamburgerMenu.appendChild(trigram)
+        hamburgerMenu.setAttribute('class', 'sm-menu');
+        document.querySelector('nav').appendChild(hamburgerMenu);
+    }
+ }
+ */
+ 
+

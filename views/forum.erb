@@ -11,7 +11,7 @@
             <div class="discussions">
               <p class="dates"><%= @post.date_added.strftime('%m/%d/%Y') %></p>
               <h2><%= @post.topic %></h2>
-              <p><span style="background:<%= @post.color %>;width:15px;height:15px;border-radius:25px;display:block;"></span><%= @post.category %></p>
+              <p class="discussion-category"><span style="background:<%= @post.color %>;width:15px;height:15px;border-radius:25px;display:block;"></span><%= @post.category %></p>
               <div class="discussion-content">
                  <p><%= @post.discussion %></p>
                   <a href="/forums/add/reply/<%= @post._id %>" id="reply">Add reply</a>
@@ -26,9 +26,10 @@
                     <p><%= reply[:reply] %></p>
                     <p><a href="#"><img src="/images/heart.png" class="likes"><%= reply[:likes] %></a></p>
                  <% end %>
+                   <a href="/edit/forum/<%= @post._id %>" id="edit-topic">Edit topic</a> 
                </div> 
             <% end %> 
-            <a href="/edit/forum/<%= @post._id %>" id="edit-topic">Edit topic</a> 
+          
              </div>  
          </div>
       </div>

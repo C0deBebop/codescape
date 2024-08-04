@@ -1,4 +1,4 @@
-require 'sinatra/base'
+require 'sinatra'
 require 'mongoid'
 require 'dotenv'
 require './models/user.rb'
@@ -27,22 +27,31 @@ class CodescapeApp < Sinatra::Base
     end    
 
     get '/' do  
-        erb :index 
-     end  
+      erb :index 
+    end  
 
      post '/' do
-        begin
-           user = User.find_by(email: params[:email], password: params[:password])
-        rescue Mongoid::Errors::DocumentNotFound
-           redirect '/'
-        else
-           check_session = @redis.hgetall("user:000#{session.id}")
-           if check_session.empty?
-              @redis.mapped_hmset("user:000#{session.id}", {:email => params[:email]})
-           end     
-           redirect '/forums/latest'
-        end   
-          
+       @user = User.find_by(email: params[:email])
+       check_session = @redis.hgetall("user:000#{session.id}")
+       @posts = Post.all.sort({_id: -1}).limit(5) 
+       @categories = Post.distinct("category")
+       @colors = Post.distinct("color")
+       @tags = Post.distinct("tags")
+       @menu_items = []
+       @categories.zip(@colors).each do |(category, color)|
+            @menu_items.push({:category => category, :colors => color}) 
+       end 
+       hashed = BCrypt::Password.create(params[:password])
+       #hashed_password = BCrypt::Password.create(json['password'])
+       if hashed == params[:password]
+         puts hashed
+         if check_session.empty?
+            @redis.mapped_hmset("user:000#{session.id}", {:email => params[:email]})
+         end   
+         erb :latest
+       else
+          redirect '/' 
+       end  
      end   
 
     get '/forums/latest' do
@@ -269,6 +278,17 @@ class CodescapeApp < Sinatra::Base
            @menu_items.push({:category => category, :colors => color}) 
        end 
        erb :edit
+    end  
+
+    post '/edit/forum/:forum_id' do
+      @post = Post.find(params[:forum_id])
+      @post.update_attributes!(
+           topic: params[:topic],
+           category: params[:category],
+           tags: [params[:tag]],
+           date_added: DateTime.now(),
+           discussion: params[:discussion]
+      )
     end  
 
 
