@@ -1,3 +1,4 @@
+<div class="profile-container">
 <% if request.path_info == '/add/profile' %>
 <div class="profile">
    <h2>Your profile</h2>
@@ -15,5 +16,24 @@
      <div id="profile-image"><input type="file" name="image"><span>Add profile image</span></div>
      <input type="submit" value="Save profile">
    </form>
-</div>    
+</div>  
+<% else %>
+ <div class="profile-card">
+   <div class="profile-flex-header">
+      <h2>LadyCoder2000</h2>
+      <p>Adventurous inventor</p>
+   </div> 
+      <div class="profile-flex-body">
+        <div id="profile-sidebar">   
+         <menu>
+            <li><a href="" id="profile-button">Profile</a></li>
+            <li><a href="" id="settings-button">Settings</a></li>
+         </menu> 
+       </div> 
+       <%= erb :'partials/profile' %>
+       <%= erb :'partials/settings' %>
+   </div> 
+</div>
+<label tabindex="0" class="profile-settings-button">Update settings</label>
+</div>
 <% end %>

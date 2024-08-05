@@ -114,14 +114,9 @@ function loadStylesheet(){
     document.querySelector('body').style.display='block';
 }
 
-
-
 window.addEventListener('load', (e) => {
     e.preventDefault();
     loadStylesheet();
-
-
-
     if(colorMode){
         colorMode.addEventListener('click', (e) => {
             e.preventDefault();
@@ -147,4 +142,19 @@ window.addEventListener('DOMContentLoaded', (e) => {
        })
    } 
  
+})
+
+const profileButton = document.querySelector('#profile-button');
+const settingsButton = document.querySelector('#settings-button');
+
+profileButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.querySelector('#settings').style.display='none';
+    document.querySelector('#profile-body').style.display='block';
+})
+
+settingsButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.querySelector('#profile-body').style.display='none';
+    document.querySelector('#settings').style.display='block';
 })

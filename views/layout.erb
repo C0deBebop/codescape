@@ -22,7 +22,7 @@
                 <ul>
                 <li id="color-mode"><i class="fa-solid fa-moon"></i></li>      
                 <% if @user %>
-                  <li><img src="/images/<%= @user.image %>"><a href="#" class="user">Hey <%=  @user.name.split(' ')[0] %> </a></li>  
+                  <li><img src="/images/<%= @user.image %>"><a href="/profile/<%= @user._id %>" class="user">Hey <%=  @user.name.split(' ')[0].capitalize %> </a></li>  
                 <% end %>   
                   <li><a href="/add/forum" class="add">Add topic</a></li>   
                   <li><a href="/logout" class="logout">Log out</a></li>

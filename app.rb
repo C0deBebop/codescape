@@ -229,7 +229,7 @@ class CodescapeApp < Sinatra::Base
     end
 
     get '/profile/:user_id' do
-
+      erb :profile 
     end
 
     get '/add/forum' do
