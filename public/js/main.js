@@ -3,9 +3,12 @@ const colors = document.querySelectorAll('.categories div span');
 const tags = document.querySelectorAll('.tags ul li');
 const cloneTags = document.querySelector('select[name="tag"]');
 const addTagsButton = document.querySelector('#add-tags');
-const forumSubmitButton = document.querySelector('#signup form button');
+const signupSubmitButton = document.querySelector('#signup form button');
+const signupButton = document.querySelector('#signup-button');
 const categoryDropdown = document.querySelectorAll(".category");
 const colorMode = document.querySelector('#color-mode');
+const profileButton = document.querySelector('#profile-button');
+const settingsButton = document.querySelector('#settings-button');
 let styleSheet = document.querySelector('#styleSheet');
 
 function loadNotification(notificationMessage){
@@ -46,11 +49,18 @@ function getSignupFormData(){
         body: jsonData
     })
     .then(response => response.json())
+    .then(data => checkAccountStatus(data))
     .catch(err => console.log(err))
     document.querySelector('#signup form').reset();
-    window.location.href='/add/profile';
-     
 }
+
+function checkAccountStatus(data){
+    if(data['status'] == 200) {
+       window.location.href='/add/profile'; 
+    } else {
+       window.location.href='/signup'; 
+    }
+} 
 
 function createLink(elementClassName){
     const link = document.createElement('a');
@@ -123,6 +133,23 @@ window.addEventListener('load', (e) => {
             toggleStylesheet(localStorage.getItem('theme') || '/css/light.mode.css');
         })
    } 
+
+   /*
+   profileButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelector('#settings').style.display='none';
+      document.querySelector('#profile-body').style.display='block';
+   })
+   
+
+    settingsButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelector('#profile-body').style.display='none';
+        document.querySelector('#settings').style.display='block';
+    })
+*/
+
+
 }) 
 
 window.addEventListener('DOMContentLoaded', (e) => {
@@ -133,28 +160,22 @@ window.addEventListener('DOMContentLoaded', (e) => {
       })
   }   
 
-   if(forumSubmitButton){
-        forumSubmitButton.addEventListener('click', (e) => {
+  if(signupSubmitButton){
+        signupSubmitButton.addEventListener('click', (e) => {
             e.preventDefault();
             let passwordField = document.querySelector('#password').value;
             let confirmPassword = document.querySelector('#confirm-password').value;
             checkPasswords(passwordField, confirmPassword);
        })
    } 
+
+
+   if(signupButton){
+     signupButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href='/signup'; 
+     })
+   }
  
 })
 
-const profileButton = document.querySelector('#profile-button');
-const settingsButton = document.querySelector('#settings-button');
-
-profileButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    document.querySelector('#settings').style.display='none';
-    document.querySelector('#profile-body').style.display='block';
-})
-
-settingsButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    document.querySelector('#profile-body').style.display='none';
-    document.querySelector('#settings').style.display='block';
-})
