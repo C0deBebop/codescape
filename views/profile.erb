@@ -16,12 +16,12 @@
      <div id="profile-image"><input type="file" name="image"><span>Add profile image</span></div>
      <input type="submit" value="Save profile">
    </form>
-</div>  
+</div> 
 <% else %>
  <div class="profile-card">
    <div class="profile-flex-header">
-      <h2>LadyCoder2000</h2>
-      <p>Adventurous inventor</p>
+      <h2><%= @user["username"] %></h2>
+      <p><% if @user["ranking"] %><%= @user["ranking"] %><% end %></p>
    </div> 
       <div class="profile-flex-body">
         <div id="profile-sidebar">   

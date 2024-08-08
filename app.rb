@@ -14,185 +14,145 @@ Mongoid.load!(File.join(File.dirname(__FILE__), 'mongoid.yml'))
 Dir[File.join(File.dirname(__FILE__), "models", "*.rb")].each { |model| require model }
 
 class CodescapeApp < Sinatra::Base
-    
     configure do
       enable :sessions
       set :sessions, :expire_after => 144000
       set :session_secret, ENV.fetch('SESSION_SECRET') {SecureRandom.hex(64)}
-
     end  
     
+    before ['/forums/latest', '/forums/:forum_id', '/forums/tag/:tagname', '/forums/add/reply/:forum_id',
+      '/forums/category/:category_name', '/edit/forum/:forum_id']  do |pages|
+      @categories = Post.distinct("category")
+      @colors = Post.distinct("color")
+      @tags = Post.distinct("tags")
+      @menu_items = Post.category_menu(@categories, @colors)
+    end    
+
     before do
       @redis = Redis.new
-    end    
+      Mongoid.raise_not_found_error = false
+    end
+     
+    post '/signup' do  
+      content_type :json   
+      post_data = JSON.parse(request.body.read, symbolize_names: true)
+      data = {
+        :name => post_data[:fullname],
+        :username => post_data[:username],
+        :email => post_data[:email], 
+        :created_at => DateTime.now(),
+        :last_active => DateTime.now(),
+        :image => 'default.png',
+        :session_id => session.id, 
+        :password => post_data[:password]
+      }
+      #check to see if user has account
+      @user = User.new
+      user_credentials = @user.check_for_account(data)
+      unless user_credentials  
+        #create user and session
+        @user.create_session(@redis, session.id, post_data[:email])
+        @user.create_account(data)
+        return {status: 200}.to_json
+      else
+        return {status: 401}.to_json
+      end 
+    end  
 
     get '/' do  
       erb :index 
     end  
 
+    get '/signup' do
+      erb :signup
+    end
+
      post '/' do
-       @user = User.find_by(email: params[:email])
-       check_session = @redis.hgetall("user:000#{session.id}")
-       @posts = Post.all.sort({_id: -1}).limit(5) 
-       @categories = Post.distinct("category")
-       @colors = Post.distinct("color")
-       @tags = Post.distinct("tags")
-       @menu_items = []
-       @categories.zip(@colors).each do |(category, color)|
-            @menu_items.push({:category => category, :colors => color}) 
-       end 
-       hashed = BCrypt::Password.create(params[:password])
-       #hashed_password = BCrypt::Password.create(json['password'])
-       if hashed == params[:password]
-         puts hashed
-         if check_session.empty?
-            @redis.mapped_hmset("user:000#{session.id}", {:email => params[:email]})
-         end   
-         erb :latest
+       user = User.new
+       account_status = user.check_for_account(params[:email])
+       password_valid = user.check_password(params[:password], account_status["password"])
+       if account_status && password_valid
+         puts session.id
+         session_data = {redis: @redis, email: params[:email], session_id: session.id}
+         user.check_for_session(session_data)
+         redirect '/forums/latest'
        else
-          redirect '/' 
-       end  
+         redirect '/signup'
+       end 
      end   
 
     get '/forums/latest' do
-       @page = 'Latest'
-       @posts = Post.all.sort({_id: -1}).limit(5) 
-       @categories = Post.distinct("category")
-       @colors = Post.distinct("color")
-       @tags = Post.distinct("tags")
-       @menu_items = []
-       @categories.zip(@colors).each do |(category, color)|
-            @menu_items.push({:category => category, :colors => color}) 
-       end 
-
-        begin
-          data = @redis.hgetall("user:000#{session.id}").to_json
-          @json = JSON.parse(data)
-          @user = User.find_by(email: @json["email"])
-        rescue Mongoid::Errors::DocumentNotFound
-          redirect '/' 
-        end
+       @user = User.get_user_account(@redis, session.id)
+       unless @user
+         redirect '/signup'
+       else
+        @page = 'Latest'
+        @posts = Post.get_latest_five
         erb :latest
+      end
     end
 
     get '/forums/:forum_id' do 
       @page = 'Forum'
-      @post = Post.find(params[:forum_id])
-      @categories = Post.distinct("category")
-      @colors = Post.distinct("color")
-      @tags = Post.distinct("tags")
-      @menu_items = []
-      @categories.zip(@colors).each do |(category, color)|
-           @menu_items.push({:category => category, :colors => color}) 
-      end 
-      #puts @post. 
-      data = @redis.hgetall("user:000#{session.id}")
-      @user = User.find_by(email: data["email"])
-
-      @discussion_replies = @post.replies.all
-      @replies = []
-      @reply_count = @discussion_replies.count
-      @discussion_replies.each do |reply|
-          user_data = User.find(reply.reply_id)
-          @replies.push({
-            :username => user_data.username,
-            :image => user_data.image,
-            :reply => reply.reply,
-            :reply_date => reply.created_at,
-            :likes => reply.likes
-         })
-      end   
+      @user = User.get_user_account(@redis, session.id)
+      @post = User.get_user_post(params[:forum_id])
+      @replies = Reply.get_post_replies(params[:forum_id])
+      @author = User.find(@post["user_id"])
       erb :forum
     end    
 
     get '/forums/add/reply/:forum_id' do
       @page = 'Add reply' 
-      data = @redis.hgetall("user:000#{session.id}")
-      @user = User.find_by(email: data["email"])
-      @post = Post.find_by(_id: params[:forum_id])
-
-      #puts @replies
+      @user = User.get_user_account(@redis, session.id)
+      @post = Post.find(params[:forum_id])
       erb :reply
     end
     
     post '/forums/add/reply/:forum_id' do
-      data = @redis.hgetall("user:000#{session.id}")
-      @user = User.find_by(email: data["email"])
-      post = Post.find(params[:forum_id]) 
-      reply = post.replies.create!(
-         reply_id: @user._id,
-         reply: params[:reply],
-         likes: 0
-      ) 
-      erb :forum
+      @user = User.get_user_account(@redis, session.id)
+      @post = Post.find(params[:forum_id])
+      reply = Reply.new
+      data = {id: @user._id, reply: params[:reply], likes: 0, forum_id: params[:forum_id]}
+      reply.add_reply(data)
+      erb :reply
     end   
- 
 
-    get '/signup' do
-      erb :signup
+    post '/forums/:forum_id/reply/:reply_id' do
+       content_type :json   
+       data = JSON.parse(request.body.read, symbolize_names: true)
+       @reply = Reply.new
+       @reply.delete_reply(data[:forum_id], data[:reply_id])
+       return {status: 200}.to_json
     end
-
-    post '/signup' do  
-      content_type :json   
-      data = request.body.read
-      json = JSON.parse(data)
-      post_date = DateTime.now()
-      hashed_password = BCrypt::Password.create(json['password'])
-      data = {:email => json['email']}
-      check_session = @redis.hgetall("user:000#{session.id}")
-      if check_session.empty?
-         @redis.mapped_hmset("user:000#{session.id}", data)
-         user = User.create!(
-            name: json['fullname'],
-            username: json['username'],
-            email: json['email'],
-            password: hashed_password,
-            created_at: post_date,
-            last_active: post_date,
-            image: 'default.png'
-         )          
-      end
-      return {success: 200}.to_json
-    end    
-
+  
     get '/forums/category/:category_name' do 
         @page = 'Categories' 
         category = params[:category_name]
         splitCategory = category.split("-").join(" ")
         @posts = Post.where(category: splitCategory)
-        @categories = Post.distinct("category")
-        @colors = Post.distinct("color")
-        @tags = Post.distinct("tags")
-        @menu_items = []
-        @categories.zip(@colors).each do |(category, color)|
-            @menu_items.push({:category => category, :colors => color}) 
-        end 
-
-        #move this to a method 
-        data = @redis.hgetall("user:000#{session.id}")
-        @user = User.find_by(email: data["email"])
+        @user = User.get_user_account(@redis, session.id)
         erb :latest
      end
 
-    get '/forums/tags' do
-
-    end
-
     get '/forums/tag/:tagname' do
         @page = 'Tags'
-    
-        @categories = Post.distinct("category")
-        @colors = Post.distinct("color")
-        @tags = Post.distinct("tags")
-        @menu_items = []
-        @categories.zip(@colors).each do |(category, color)|
-            @menu_items.push({:category => category, :colors => color}) 
-        end 
-        data = @redis.hgetall("user:000#{session.id}")
-        @user = User.find_by(email: data["email"])
+        @user = User.get_user_account(@redis, session.id)
         @posts = Post.where(tags: params[:tagname])
         erb :latest
     end
+
+    get '/add/forum' do
+      @categories = Post.distinct("category")
+      @colors = Post.distinct("color")
+      @tags = Post.distinct("tags")
+      @menu_items = Post.category_menu(@categories, @colors)
+      @user = User.get_user_account(@redis, session.id)
+      erb :'add-forum'
+    end  
+
+    get '/profiles/:id' do 
+      erb :profile
+    end  
 
     get '/add/profile' do        
        erb :profile
@@ -202,22 +162,23 @@ class CodescapeApp < Sinatra::Base
     post '/add/profile' do
        experience = params[:experience]
        profile_image = params[:image]
-       current_date = DateTime.now()
-       data = @redis.hgetall("user:000#{session.id}").to_json
-       if data.empty?
+       @user = User.get_user_account(@redis, session.id)
+       if @user.empty?
           redirect '/'
        else
-          json = JSON.parse(data)
-          @user = User.find_by(email: json["email"])
           @user.update_attributes!(
              image: profile_image,
              ranking: experience,
-             last_active: current_date
+             last_active: DateTime.now()
           )
           redirect '/forums/latest'
        end  
     end
 
+    get '/profile/:user_id' do
+      @user = User.get_user_account(@redis, session.id)
+      erb :profile 
+    end
 
 
     get '/profile' do
@@ -228,20 +189,9 @@ class CodescapeApp < Sinatra::Base
 
     end
 
-    get '/profile/:user_id' do
-      erb :profile 
-    end
-
-    get '/add/forum' do
-      @categories = Post.distinct("category")  
-      @tags = Post.distinct("tags")
-      erb :'add-forum'
-    end  
-
     post '/add/forum' do
-      data = @redis.hgetall("user:000#{session.id}").to_json
-      json = JSON.parse(data)
-      if data.empty?
+      @user = User.get_user_account(@redis, session.id)
+      if @user.empty?
          redirect '/'
       else
          topic = params[:topic]
@@ -251,8 +201,6 @@ class CodescapeApp < Sinatra::Base
          tag = params[:tag]
          tag2 = params[:tag2]
          forum_post = params[:forumpost]
-         current_date = DateTime.now()
-         @user = User.find_by(email: json["email"])
          post = @user.posts.create!(
             topic: topic, 
             category: category, 
@@ -260,42 +208,45 @@ class CodescapeApp < Sinatra::Base
             tags: [tag, tag2], 
             views: 0, 
             likes: 0,
-            date_added: current_date,
+            date_added: DateTime.now(),
             discussion: forum_post
          ){}.to_json
          redirect '/forums/latest'
        end
     end 
     
-    get '/edit/forum/:forum_id' do
+
+   get '/edit/forum/:forum_id' do
        @page = 'Edit forum'
        @post = Post.find(params[:forum_id])
-       @categories = Post.distinct("category")
-       @colors = Post.distinct("color")
-       @tags = Post.distinct("tags")
-       @menu_items = []
-       @categories.zip(@colors).each do |(category, color)|
-           @menu_items.push({:category => category, :colors => color}) 
-       end 
+       @menu_items = Post.category_menu(@categories, @colors)
+       @user = User.get_user_account(@redis, session.id)
        erb :edit
     end  
 
     post '/edit/forum/:forum_id' do
       @post = Post.find(params[:forum_id])
       @post.update_attributes!(
-           topic: params[:topic],
-           category: params[:category],
-           tags: [params[:tag]],
-           date_added: DateTime.now(),
-           discussion: params[:discussion]
+         topic: params[:topic],
+         category: params[:category],
+         tags: [params[:tag]],
+         date_added: DateTime.now(),
+         discussion: params[:discussion]
       )
-    end  
+  end  
 
 
-    get '/logout' do
-      session.clear  
-      redirect '/'
+  get '/logout' do
+    user = User.new
+    session_status = user.get_session(@redis, session.id)
+    session_key = "user:000#{session.id}"
+    puts session_status
+    if session_status
+      user.signout(@redis, session_key)
+      session.clear
+      redirect '/'      
     end
+  end
 
     not_found do
      

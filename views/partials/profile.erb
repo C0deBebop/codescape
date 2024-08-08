@@ -2,7 +2,7 @@
          <button type="">Click to edit profile</button>
          <h4>Bio</h4>
          <form method="post">
-           <textarea name="bio" placeholder=""></textarea>
+           <textarea name="bio" placeholder="<% if @user["bio"] %><%= @user["bio"] %><% end %>"></textarea>
            <input type="submit" class="profile-settings-form hidden-button">
          </form> 
        </div>

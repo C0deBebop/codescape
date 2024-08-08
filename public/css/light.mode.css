@@ -25,7 +25,16 @@
     display: none;   
     animation: fadeIn 0.00001s linear 0.00002s backwards; 
     }
-    
+
+    select {
+    /*background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%23fc0000'><polygon points='0,0 100,0 50,50'/></svg>") no-repeat;
+    -moz-appearance: none; 
+    -webkit-appearance: none; 
+    appearance: none;  */  
+    background: transparent;
+    outline:none
+    }
+
     header {
     display: flex;
     flex-direction: row;
@@ -365,7 +374,7 @@
     .dates {   
     display: block;    
     float: right;  
-    width: 5em; 
+    width: 5em !important; 
     margin: 0 auto;
     }
     
@@ -750,6 +759,20 @@
     font: normal 600 1.2em redonda, sans-serif;
     color: var(--bodyTextColor);
     margin: -5px 0 25px 0;  
+    }
+    
+    #author {
+    margin-top: 50px;
+    }
+    
+    #author div {
+    font: normal 400 0.8em redonda, sans-serif;
+    color: var(--bodyTextColor);
+    }
+    
+    #author div a {
+    font: normal 600 1em redonda, sans-serif;
+    color: var(--bodyTextColor);
     }
     
     

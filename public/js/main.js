@@ -9,6 +9,7 @@ const categoryDropdown = document.querySelectorAll(".category");
 const colorMode = document.querySelector('#color-mode');
 const profileButton = document.querySelector('#profile-button');
 const settingsButton = document.querySelector('#settings-button');
+const deleteReplyButtons = document.querySelectorAll('.delete-reply');
 let styleSheet = document.querySelector('#styleSheet');
 
 function loadNotification(notificationMessage){
@@ -124,6 +125,23 @@ function loadStylesheet(){
     document.querySelector('body').style.display='block';
 }
 
+
+deleteReplyButtons.forEach((deleteButton) => {
+        const forumId = deleteButton.parentNode.getAttribute('data-post-id');
+        const replyId = deleteButton.parentNode.getAttribute('data-reply-id');
+        deleteButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            fetch(`/forums/${forumId}/reply/${replyId}`, {
+                method: 'POST',
+                headers: {'Content-Type' : 'application/json'},
+                body: JSON.stringify({forum_id: forumId, reply_id: replyId})
+            })
+            .then(response => response.json())
+            .catch(err => console.log(err))
+            location.reload();
+        })   
+}) 
+
 window.addEventListener('load', (e) => {
     e.preventDefault();
     loadStylesheet();
@@ -168,7 +186,6 @@ window.addEventListener('DOMContentLoaded', (e) => {
             checkPasswords(passwordField, confirmPassword);
        })
    } 
-
 
    if(signupButton){
      signupButton.addEventListener('click', (e) => {

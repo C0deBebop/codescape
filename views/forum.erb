@@ -9,24 +9,29 @@
             <%= erb :'partials/filter' %>   
         </div>
             <div class="discussions">
-              <p class="dates"><%= @post.date_added.strftime('%m/%d/%Y') %></p>
-              <h2><%= @post.topic %></h2>
-              <p class="discussion-category"><span style="background:<%= @post.color %>;width:15px;height:15px;border-radius:25px;display:block;"></span><%= @post.category %></p>
+              <p class="dates"><%= @post[:date_added].strftime("%m/%d/%Y") %></p>
+              <h2><%= @post[:topic] %></h2>
+              <p class="discussion-category"><span style="background:<%= @post[:color] %>;width:15px;height:15px;border-radius:25px;display:block;"></span><%= @post[:category] %></p>
               <div class="discussion-content">
-                 <p><%= @post.discussion %></p>
-                  <a href="/forums/add/reply/<%= @post._id %>" id="reply">Add reply</a>
+                 <p><%= @post[:discussion] %></p>
+                  <div id="author">
+                    <div><img src="/images/<%= @author["image"] %>"></div>
+                    <div>By <a href="/profiles/<%= @author["_id"] %>"><%=  @author["username"].capitalize %></a></div>
+                    <a href="/forums/add/reply/<%= @post[:_id] %>" id="reply">Add reply</a>
+                 </div> 
                 </div>
                 <% if @replies %>
                 <div class="discussion-replies">
-                    <h2><%= @reply_count %> Replies</h2>  
+                    <h2><% if @replies.count %><%= @replies.count %><% else %>0<% end %> Replies</h2>  
                     <% @replies.each do |reply| %>
                     <div>
-                      <img src="/images/<%= reply[:image] %>" class="user-image"><span><%= reply[:username] %></span><span class="reply-date"><%= reply[:reply_date].strftime('%m/%d/%Y') %></span> 
+                      <img src="/images/<%= reply[:image] %>" class="user-image"><span><%= reply[:username] %></span><span class="reply-date"><%= reply[:created_at] %></span> 
                     </div>
                     <p><%= reply[:reply] %></p>
+                    <span class="delete" data-post-id="<%= @post[:_id] %>" data-reply-id="<%= reply[:reply_id] %>"><a href="/forums/<%= @post[:_id] %>/reply/<%= reply[:reply_id] %>" class="delete-reply">delete</a></span>
                     <p><a href="#"><img src="/images/heart.png" class="likes"><%= reply[:likes] %></a></p>
                  <% end %>
-                   <a href="/edit/forum/<%= @post._id %>" id="edit-topic">Edit topic</a> 
+                   <a href="/edit/forum/<%= @post[:_id] %>" id="edit-topic">Edit topic</a> 
                </div> 
             <% end %> 
           
